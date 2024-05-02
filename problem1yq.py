@@ -11,15 +11,13 @@ Accuracy on training data: 0.00%
 def qr_least_squares(A, b):
     A_np = np.array(A).astype(np.float64)
     b_np = np.array(b).astype(np.float64).flatten()
-    
+
     # QR decomposition of A
     Q, R = np.linalg.qr(A_np)
-    # Solve R*x = Q.T * b for x
     x = np.linalg.solve(R, Q.T @ b_np)
     return x
 
 def predict(A, x):
-    # Use linear model to predict
     A_np = np.array(A).astype(np.float64)
     predictions = A_np @ x
     # Classify predictions 
