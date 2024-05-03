@@ -1,9 +1,5 @@
 import numpy as np
 
-# Construct a matrix for all handwritings
-# row 0 - 399 for digit 0, labeled as 10 in label.txt
-# row 400 - 799 for digit 1
-
 def read_matrix_from_txt(path, num_examples_per_digit):
     data = np.loadtxt(path, delimiter=",")
 
