@@ -1,21 +1,13 @@
 # MATH 425 FINAL PROJECT
-### **IDE - VSCODE:**
-### Make sure you have all necessary packages (numpy)
-### Download lastest python version
+### Make sure you have all necessary packages (numpy) and python version
 
 # **Download:**
-Clone the files
-
+Clone the repo
 *OR*
-
-Download the individual files:
-1. problem1yq.py
-2. problem3yq.py
+Download the individual files
 
 # **To run the file:**
 Click on "Run Python File" top right of the open file
-
 *OR*
-
-Right-click on "problem1yq.py" or "problem3yq.py"
+Right-click on a file to run
 Select "Run Python file on Terminal"
