@@ -3,31 +3,13 @@ from efficient_cancer_data import read_training_data
 
 '''
 First Run:
-Accuracy on validation data: 63.67%
-Accuracy on training data: 0.00%
+Sucess Rate: 63.67%
+% of incorrect: 0.00%
+
+Second Run:
+Sucess Rate: 96.92%
+% of incorrect: 3.08%
 '''
-
-def qr_least_squares(A, b):
-    A_np = np.array(A).astype(np.float64)
-    b_np = np.array(b).astype(np.float64).flatten()
-
-    # QR decomposition of A
-    Q, R = np.linalg.qr(A_np)
-    x = np.linalg.solve(R, Q.T @ b_np)
-    return x
-
-def predict(A, x):
-    A_np = np.array(A).astype(np.float64)
-    predictions = A_np @ x
-    # Classify predictions 
-    predicted_classes = np.where(predictions >= 0, 1, -1)
-    return predicted_classes
-
-def evaluate_predictions(true_labels, predicted_labels):
-    # Calculate the accuracy of the predictions
-    accuracy = np.mean(true_labels == predicted_labels)
-    return accuracy
-
 # Load training & validation data
 A, b = read_training_data('train.data')
 A_val, b_val = read_training_data('validate.data')
