@@ -4,13 +4,15 @@ from efficient_cancer_data import read_training_data
 '''
 PROBLEM 1
 
-First Run:
-Sucess Rate: 63.67%
-% of incorrect: 0.00%
+Test:
+Incorrect classifications on training data: 0.00%
+Sucess Rate of Training: 63.67%
 
-Second Run:
-Sucess Rate: 96.92%
-% of incorrect: 3.08%
+OUTPUT:
+Incorrect classifications on training data: 4.67%
+Success rate on training data: 95.33%
+Incorrect classifications on validation data: 3.08%
+Success rate on validation data: 96.92%
 
 What is the percentage of samples that are incorrectly classified?
     - 3.08%
