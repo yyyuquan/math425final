@@ -1,5 +1,6 @@
 # MATH 425 FINAL PROJECT
 ## DUE May 3, 2024 @ 5:00 P.M.
+Prof Boateng's email: boateng@sfsu.edu
 ### Make sure you have all necessary packages (numpy) and python version
 
 # **Download:**
