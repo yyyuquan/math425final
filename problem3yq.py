@@ -2,6 +2,22 @@ import numpy as np
 from numpy.linalg import svd
 
 '''
+OUTPUT:
+Classification accuracy using 5 singular vectors: 91.80%
+Classification accuracy using 10 singular vectors: 94.40%
+Classification accuracy using 15 singular vectors: 95.30%
+Classification accuracy using 20 singular vectors: 95.70%
+
+Is it possible to get as good a result for this version? 
+    - Yes it is possible, well for this version that only go up to 20 singular vectors,
+        I haven't tried for anything higher than that... yet.
+How frequently is the second stage necessary?
+    - I think second stage is heavily dependent on the first stage, so if the first stage
+        was doing horribly, then I believe the second stage would follow.
+        There is a situation where the first stage isn't doing well and the second stage
+        is doing well because the second stage is more complex, so other factors can lead
+        to a better result.
+
 PROBLEM 3
 part A
 '''
@@ -44,16 +60,6 @@ print("Singular vectors for each digit and k DONE-OH.")
 '''
 PROBLEM 3
 part B
-
-OUTPUT:
-Classification accuracy using 5 singular vectors: 91.80%
-Classification accuracy using 10 singular vectors: 94.40%
-Classification accuracy using 15 singular vectors: 95.30%
-Classification accuracy using 20 singular vectors: 95.70%
-
-Is it possible to get as good a result for thisversion? 
-    - Yes it is possible, well for this version that only go up to 20 singular vectors.
-How frequently is the second stage necessary?
 '''
 # Classify a sample using singular vectors (based on the distance spanned)
 def classify_sample(sample, singular_vectors):
