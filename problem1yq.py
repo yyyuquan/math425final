@@ -40,7 +40,7 @@ classified_predictions = np.where(predictions >= 0, 1, -1)
 
 # Calculate
 incorrect_classifications = np.mean(classified_predictions != b_val) * 100
-print(f"Percentage of incorrect classifications: {incorrect_classifications}%") #3.08%
+print(f"Percentage of incorrect classifications: {incorrect_classifications:.2f}%")
 
 success_rate_val = 100 - incorrect_classifications
-print(f"Success rate on validation data: {success_rate_val}%") #96.92%
+print(f"Success rate on validation data: {success_rate_val:.2f}%")
