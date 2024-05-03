@@ -2,6 +2,8 @@ import numpy as np
 from efficient_cancer_data import read_training_data
 
 '''
+PROBLEM 1
+
 First Run:
 Sucess Rate: 63.67%
 % of incorrect: 0.00%
