@@ -1,4 +1,5 @@
-# **IDE - VSCODE:**
+# MATH 425 FINAL PROJECT
+### **IDE - VSCODE:**
 ### Make sure you have all necessary packages (numpy)
 ### Download lastest python version
 
