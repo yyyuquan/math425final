@@ -38,8 +38,8 @@ def test_model(model, testing_data, testing_labels):
             correct_predictions += 1
 
     # Calculate accuracy
-    accuracy = correct_predictions / total_predictions
-    return accuracy
+    accuracy = (correct_predictions / total_predictions) * 100
+    return round(accuracy, 2)
 
 def calculate_accuracy(correct_predictions, total_predictions):
     """
@@ -55,7 +55,7 @@ def calculate_accuracy(correct_predictions, total_predictions):
     if total_predictions == 0:
         return 0
     else:
-        return correct_predictions / total_predictions
+        return round((correct_predictions / total_predictions) * 100, 2)
 
 def plot_accuracy_vs_basis_vectors(detectors, testing_data, testing_labels, s_values):
     """
@@ -79,7 +79,7 @@ def plot_accuracy_vs_basis_vectors(detectors, testing_data, testing_labels, s_va
     # Plot accuracy vs. number of basis vectors
     plt.plot(s_values, accuracies, marker='o')
     plt.xlabel('Number of Basis Vectors (s)')
-    plt.ylabel('Accuracy')
+    plt.ylabel('Accuracy %')
     plt.title('Accuracy vs. Number of Basis Vectors')
     plt.grid(True)
     plt.xticks(s_values)
@@ -188,7 +188,8 @@ def main():
         digit_accuracies = test_digit_accuracies(detectors.get(s), testing_data, testing_labels)
         print(f"Accuracy for {s} basis: ")
         for digit, accuracy in digit_accuracies.items():
-            print(f"Accuracy for digit {digit}: {accuracy}")
+            print(f"Accuracy for digit {digit}: {accuracy} %")
+
 
     # Task iii
     singular_values_per_digit_per_detector = analyze_singular_values_per_digit(training_file, s_values)
