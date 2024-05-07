@@ -15,7 +15,8 @@ Incorrect classifications on validation data: 3.08%
 Success rate on validation data: 96.92%
 
 What is the percentage of samples that are incorrectly classified?
-    - 3.08%
+    - 3.08% Validation & 
+    - 4.67% Training
 Is it greater or smaller than the success rate on the training data
     - Validation data is GREATER than the training data
 '''
@@ -54,6 +55,7 @@ print(f"Percentage of incorrect classifications: {incorrect_classifications:.2f}
 success_rate_val = 100 - incorrect_classifications
 print(f"Success rate on validation data: {success_rate_val:.2f}%")
 '''
+# Predict on training data
 train_predictions = A @ x
 train_classified = np.where(train_predictions >= 0, 1, -1)
 train_incorrect_classifications = np.mean(train_classified != b) * 100
