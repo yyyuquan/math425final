@@ -4,7 +4,7 @@ from efficient_cancer_data import read_training_data
 '''
 PROBLEM 1
 
-Test:
+Test Run:
 Incorrect classifications on training data: 0.00%
 Sucess Rate of Training: 63.67%
 
@@ -13,12 +13,6 @@ Incorrect classifications on training data: 4.67%
 Success rate on training data: 95.33%
 Incorrect classifications on validation data: 3.08%
 Success rate on validation data: 96.92%
-
-What is the percentage of samples that are incorrectly classified?
-    - 3.08% Validation & 
-    - 4.67% Training
-Is it greater or smaller than the success rate on the training data
-    - Validation data is GREATER than the training data
 '''
 # Load training & validation data
 A, b = read_training_data('train.data')
