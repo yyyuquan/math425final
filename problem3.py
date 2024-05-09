@@ -89,6 +89,8 @@ for k, accuracy in results.items():
 
 '''
 Graph
+
+Note: Took out some graphs, but the png is still in the folder
 '''
 # Graph of classification accuracy vs. number of singular vectors
 accuracies = [91.80, 94.40, 95.30, 95.70]
