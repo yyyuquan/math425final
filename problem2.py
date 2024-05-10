@@ -43,6 +43,27 @@ val_count = 0
 for i in range(260):
     if (val_pred_vec[i] == val_b[i]):
         val_count = val_count + 1
-cor_perc = (val_count / 260) * 100 # the percentage of samples that match
-inc_perc = 100 - cor_perc # the incorrect percentange of samples that dismatch = 3.07692307692308%
+val_cor_perc = (val_count / 260) * 100 # the percentage of samples that match
+val_inc_perc = 100 - val_cor_perc # the incorrect percentange of samples that dismatch = 
+print(val_inc_perc)
+
+#finding the predicted vector for training data
+pred_vec = []
+for i in range(300):
+    pred = A.row(i) * x
+    if (pred[0] >= 0):
+        pred_vec.append(1)
+    else:
+        pred_vec.append(-1)
+
+count = 0
+# find the number of samples that match
+for i in range(300):
+    if (pred_vec[i] == b[i]):
+        count = count + 1
+cor_perc = (count / 300) * 100 # the percentage of samples that match
+inc_perc = 100 - cor_perc # the incorrect percentange of samples that dismatch = 
 print(inc_perc)
+
+#The values of inc_perc for both training data and validate data is always different each time I run the code
+#There are sometimes were inc_perc of training data is greater than inc_perc of validata data and sometime it is less than.
