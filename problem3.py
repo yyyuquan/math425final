@@ -9,16 +9,6 @@ Classification accuracy using 10 singular vectors: 94.40%
 Classification accuracy using 15 singular vectors: 95.30%
 Classification accuracy using 20 singular vectors: 95.70%
 
-Is it possible to get as good a result for this version? 
-    - Yes it is possible, well for this version that only go up to 20 singular vectors,
-        I haven't tried for anything higher than that... yet.
-How frequently is the second stage necessary?
-    - I think second stage is heavily dependent on the first stage, so if the first stage
-        was doing horribly, then I believe the second stage would follow.
-        There is a situation where the first stage isn't doing well and the second stage
-        is doing well because the second stage is more complex, so other factors can lead
-        to a better result.
-
 PROBLEM 3
 part A
 '''
@@ -57,14 +47,8 @@ for digit, samples in digit_samples.items():
     digit_singular_values[digit] = S[:20]
     for k in ks:
         digit_singular_vectors[k][digit] = Vt[:k] # Stores the k
+# print("Singular vectors for each digit and k DONE-OH.")
 
-print("Singular vectors for each digit and k DONE-OH.")
-
-
-'''
-PROBLEM 3
-part B
-'''
 # Classify a sample using singular vectors (based on the distance spanned)
 def classify_sample(sample, singular_vectors):
     best_digit = None
@@ -77,7 +61,7 @@ def classify_sample(sample, singular_vectors):
             best_digit = digit
     return best_digit
 
-# Classify all test samples using different 
+# Classify all test samples using different
 # numbers of singular vectors and evaluate accuracy
 results = {}
 for k in ks:
@@ -87,8 +71,63 @@ for k in ks:
     results[k] = accuracy
 
 # Output
+print("Part A:")
 for k, accuracy in results.items():
     print(f"Classification accuracy using {k} singular vectors: {accuracy:.2f}%")
+
+
+
+'''
+PROBLEM 3
+part B
+
+OUTPUT:
+    The accuracy of implementing two-stage algorithm is 91.60%
+    The fallback classification function was used 47.20% of the time.
+
+Answers:
+    Is it possible to get as good a result for this version? 
+        - Yes. When using 20 singular vectors in the fallback function, the accuracy of the two-stage algorithm is shown
+         to be 91.60%, which is only 0.2% less accurate than using 5 singular vectors. And the accuracy itself is not 
+         bad, if someone can be satisfied with 91.60% accuracy, this algorithm can be as good as the algorithm above.
+    How frequently is the second stage necessary?
+        - In our testing, the second stage was used 47.20% of the time.
+'''
+
+
+# Compare the unknow digit with the first singular vector
+def two_stage_classification(sample, singular_vectors):
+    distances = {}
+    fallback_count = 0  # Initialize counter variable for fallback calls
+    for digit, vectors in singular_vectors.items():
+        proj = vectors[:1].T @ (vectors[:1] @ sample)
+        distances[digit] = np.linalg.norm(sample - proj)  # Compute Euclidean distance
+    q1 = np.percentile(list(distances.values()), 25)
+    q3 = np.percentile(list(distances.values()), 75)
+    iqr = q3 - q1
+    lower_bound = q1 - 1.5 * iqr
+    outliers = [digit for digit, distance in distances.items() if distance < lower_bound]
+    if outliers:
+        prediction = outliers[0]
+    else:
+        fallback_count += 1  # Increment fallback counter
+        prediction = classify_sample(sample, singular_vectors)
+    return prediction, fallback_count
+
+two_stage_predictions_and_counts = [two_stage_classification(sample, digit_singular_vectors[20]) for sample in test_data]
+two_stage_predictions, fallback_counts = zip(*two_stage_predictions_and_counts)
+
+# Calculate accuracy
+two_stage_correct_predictions = sum(1 for pred, true in zip(two_stage_predictions, test_labels) if pred == int(true) - 1)
+accuracy = two_stage_correct_predictions / len(test_labels) * 100
+
+# Calculate fallback percentage
+total_samples = len(test_data)
+fallback_percentage = (sum(fallback_counts) / total_samples) * 100
+print("\n")
+print("Part B:")
+print(f"The accuracy of implementing two-stage algorithm is {accuracy:.2f}%")
+print(f"The fallback classification function was used {fallback_percentage:.2f}% of the time.")
 
 '''
 Graph
