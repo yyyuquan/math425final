@@ -29,7 +29,7 @@ test_labels = load_data('handwriting_test_set_labels.txt')
 
 # Constants (0-9) & the features per sample (unit)
 num_digits = 10
-num_features = 400
+num_features = 400 # might take it out but 20x20 pixels = 400 features
 ks = [5, 10, 15, 20] # Singular vectors for SVD classification (not sure if we just pick one)
 
 # Change training data by digit --> calculates SVD for each digit
@@ -143,7 +143,7 @@ Graph
 Note: Took out some graphs, but the png is still in the folder
 '''
 # Graph of classification accuracy vs. number of singular vectors
-accuracies = [91.80, 94.40, 95.30, 95.70]
+accuracies = [results[k] for k in ks]
 
 plt.figure(figsize=(10, 6))
 plt.plot(ks, accuracies, marker='o', linestyle='-', color='b')
@@ -155,8 +155,15 @@ plt.xticks(ks)  # Only k values will show
 plt.ylim(min(accuracies) - 1, max(accuracies) + 1)  # Might change this
 plt.savefig('classification_accuracy_vs_singular_vectors.png')
 plt.show()
-
-
+'''
+plt.figure(figsize=(10, 5))
+plt.plot(ks, accuracies, marker='o')
+plt.title('Classification Accuracy vs Number of Singular Vectors')
+plt.xlabel('Number of Singular Vectors')
+plt.ylabel('Accuracy (%)')
+plt.grid(True)
+plt.show()
+'''
 # Singular value decay for each digit
 singular_values = {digit: np.random.rand(20) for digit in range(10)}
 data_matrix = np.array([values for _, values in sorted(singular_values.items())]) # Matrix of singular values
@@ -169,7 +176,7 @@ plt.xlabel('Singular Value Index')
 plt.ylabel('Digit')
 plt.yticks(np.arange(10), [f'Digit {i}' for i in range(10)])
 plt.xticks(np.arange(20))
-plt.grid(True)
+plt.grid(False)
 plt.savefig('singular_value_decay_heatmap.png')
 plt.show()
 
@@ -183,11 +190,18 @@ plt.title('Singular Values for Each Digit')
 plt.legend()
 plt.grid(True)
 plt.xticks(np.arange(20))
+plt.savefig('singular_values_for_each_digit.png')
 plt.show()
 
 # Misclassifications per digit
-misclassifications = {digit: np.random.randint(0, 100) for digit in range(10)} 
+misclassifications = {digit: 0 for digit in range(10)}
 
+    # Count misclassifications for each digit
+for pred, true in zip(predictions, test_labels):
+    if pred != int(true) - 1:  
+        misclassifications[int(true) - 1] += 1 
+
+    # Plotting the correct data
 digits = list(misclassifications.keys())
 errors = list(misclassifications.values())
 
@@ -198,7 +212,7 @@ plt.xlabel('Digit')
 plt.ylabel('Number of Misclassifications')
 plt.xticks(digits)
 plt.grid(axis='y')
-plt.savefig('misclassifications_per_digit.png')
+plt.savefig('correct_misclassifications_per_digit.png')
 plt.show()
 
 # Part B graph for comparing the accuracies of two algorithms
