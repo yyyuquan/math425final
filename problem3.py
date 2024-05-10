@@ -82,7 +82,10 @@ PROBLEM 3
 part B
 
 OUTPUT:
-    The accuracy of implementing two-stage algorithm is 91.60%
+    The accuracy of implementing two-stage algorithm using 5 singular vectors for the fallback is 88.40%
+    The accuracy of implementing two-stage algorithm using 10 singular vectors for the fallback is 90.70%
+    The accuracy of implementing two-stage algorithm using 15 singular vectors for the fallback is 91.40%
+    The accuracy of implementing two-stage algorithm using 20 singular vectors for the fallback is 91.60%
     The fallback classification function was used 47.20% of the time.
 
 Answers:
@@ -114,20 +117,25 @@ def two_stage_classification(sample, singular_vectors):
         prediction = classify_sample(sample, singular_vectors)
     return prediction, fallback_count
 
-two_stage_predictions_and_counts = [two_stage_classification(sample, digit_singular_vectors[20]) for sample in test_data]
-two_stage_predictions, fallback_counts = zip(*two_stage_predictions_and_counts)
+two_stage_accuracy = {}
+for k in ks:
+    two_stage_predictions_and_counts = [two_stage_classification(sample, digit_singular_vectors[k]) for sample in test_data]
+    two_stage_predictions, fallback_counts = zip(*two_stage_predictions_and_counts)
+    # Calculate accuracy
+    two_stage_correct_predictions = sum(1 for pred, true in zip(two_stage_predictions, test_labels) if pred == int(true) - 1)
+    accuracy = two_stage_correct_predictions / len(test_labels) * 100
+    # Calculate fallback percentage
+    total_samples = len(test_data)
+    fallback_percentage = (sum(fallback_counts) / total_samples) * 100
+    two_stage_accuracy[k] = (accuracy, fallback_percentage)
 
-# Calculate accuracy
-two_stage_correct_predictions = sum(1 for pred, true in zip(two_stage_predictions, test_labels) if pred == int(true) - 1)
-accuracy = two_stage_correct_predictions / len(test_labels) * 100
-
-# Calculate fallback percentage
-total_samples = len(test_data)
-fallback_percentage = (sum(fallback_counts) / total_samples) * 100
 print("\n")
 print("Part B:")
-print(f"The accuracy of implementing two-stage algorithm is {accuracy:.2f}%")
-print(f"The fallback classification function was used {fallback_percentage:.2f}% of the time.")
+for k, value in two_stage_accuracy.items():
+    print(f"The accuracy of implementing two-stage algorithm using {k} singular vectors for the fallback is {value[0]:.2f}%")
+# This will be the same for every k
+print(f"The fallback classification function was used {two_stage_accuracy[5][1]:.2f}% of the time.")
+
 
 '''
 Graph
@@ -191,4 +199,18 @@ plt.ylabel('Number of Misclassifications')
 plt.xticks(digits)
 plt.grid(axis='y')
 plt.savefig('misclassifications_per_digit.png')
+plt.show()
+
+# Part B graph for comparing the accuracies of two algorithms
+plt.figure(figsize=(10, 6))
+plt.bar([k - 0.2 for k in results.keys()], results.values(), width=0.4, label='Original Algorithm', color='blue')
+plt.bar([k + 0.2 for k in two_stage_accuracy.keys()], [accuracy[0] for accuracy in two_stage_accuracy.values()], width=0.4, label='Two Stage Algorithm', color='red')
+
+plt.xlabel('k')
+plt.ylabel('Accuracy (%)')
+plt.title('Comparison of Accuracy')
+plt.xticks(list(results.keys()) + list(two_stage_accuracy.keys()), list(results.keys()) + list(two_stage_accuracy.keys()))
+plt.grid(axis='y')
+plt.legend()
+plt.tight_layout()
 plt.show()
