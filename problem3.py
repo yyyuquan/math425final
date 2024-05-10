@@ -47,11 +47,14 @@ digit_samples = {i: [] for i in range(num_digits)}
 for sample, label in zip(training_data, training_labels):
     digit_samples[int(label) - 1].append(sample)
 
+digit_singular_values = {i: [] for i in range(num_digits)}
 # SVD & stores the k value for each singular vector
 digit_singular_vectors = {k: {} for k in ks}
+
 for digit, samples in digit_samples.items():
     matrix = np.vstack(samples) # Stack arrays vertically to turn it into a matrix
     U, S, Vt = svd(matrix, full_matrices=False) # SVD
+    digit_singular_values[digit] = S[:20]
     for k in ks:
         digit_singular_vectors[k][digit] = Vt[:k] # Stores the k
 
@@ -121,6 +124,18 @@ plt.yticks(np.arange(10), [f'Digit {i}' for i in range(10)])
 plt.xticks(np.arange(20))
 plt.grid(True)
 plt.savefig('singular_value_decay_heatmap.png')
+plt.show()
+
+# Plot the first 20 singular values of each digit
+plt.figure(figsize=(10, 6))
+for digit, singular_values_array in digit_singular_values.items():
+    plt.plot(np.arange(len(singular_values_array)), singular_values_array, label=f'Digit {digit}')
+plt.xlabel('Index')
+plt.ylabel('Singular Value Magnitude')
+plt.title('Singular Values for Each Digit')
+plt.legend()
+plt.grid(True)
+plt.xticks(np.arange(20))
 plt.show()
 
 # Misclassifications per digit
